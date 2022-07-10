@@ -18,34 +18,45 @@ class UntitledTestCase(unittest.TestCase):
         self.open_home_page(wd)
         self.login(wd)
         self.open_groups_page(wd)
-        self.create_group(wd)
+        self.create_group(wd, name="huwud", header="ueuffjub", footer="dhubdegb")
         self.return_to_groups_page(wd)
-        self.logout(wd)
+        self.logout(wd, username="admin", password="secret")
 
-    def logout(self, wd):
+    def test_add_empty_group(self):
+        wd = self.driver
+        self.open_home_page(wd)
+        self.login(wd)
+        self.open_groups_page(wd)
+        self.create_group(wd, name="", header="", footer="")
+        self.return_to_groups_page(wd)
+        self.logout(wd, username="admin", password="secret")
+
+    def logout(self, wd, username, password):
         wd.find_element(By.LINK_TEXT, "Logout").click()
         wd.find_element(By.NAME, "user").clear()
-        wd.find_element(By.NAME, "user").send_keys("admin")
+        wd.find_element(By.NAME, "user").send_keys(username)
         wd.find_element(By.NAME, "pass").clear()
-        wd.find_element(By.NAME, "pass").send_keys("secret")
+        wd.find_element(By.NAME, "pass").send_keys(password)
+
+
 
     def return_to_groups_page(self, wd):
         wd.find_element(By.LINK_TEXT, "group page").click()
 
-    def create_group(self, wd):
+    def create_group(self, wd, name, header, footer):
         # init group creation
         wd.find_element(By.NAME, "new").click()
         # fill group form
         wd.find_element(By.ID, "content").click()
         wd.find_element(By.NAME, "group_name").click()
         wd.find_element(By.NAME, "group_name").clear()
-        wd.find_element(By.NAME, "group_name").send_keys("huwud")
+        wd.find_element(By.NAME, "group_name").send_keys(name)
         wd.find_element(By.NAME, "group_header").click()
         wd.find_element(By.NAME, "group_header").clear()
-        wd.find_element(By.NAME, "group_header").send_keys("ueuffjub")
+        wd.find_element(By.NAME, "group_header").send_keys(header)
         wd.find_element(By.NAME, "group_footer").click()
         wd.find_element(By.NAME, "group_footer").clear()
-        wd.find_element(By.NAME, "group_footer").send_keys("dhubdegb")
+        wd.find_element(By.NAME, "group_footer").send_keys(footer)
         # submit group creation
         wd.find_element(By.NAME, "submit").click()
 
